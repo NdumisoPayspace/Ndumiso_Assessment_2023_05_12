@@ -1,0 +1,35 @@
+﻿<h1>Inventory Management</h1>
+
+<div class="center">
+    @(
+        Html.DevExtreme().DataGrid<Ndumiso_Assessment_2023_05_12.Models.Product>()
+        .ID("gridContainer")
+        .ShowBorders(true)
+        .Paging(_ => _.PageSize(10))
+        .HoverStateEnabled(true)
+        .ColumnWidth(250)
+        .Editing(_ =>
+        {
+            _.Mode(GridEditMode.Form);
+            _.UseIcons(true);
+            _.AllowUpdating(true);
+            _.AllowAdding(true);
+            _.AllowDeleting(true);
+        })
+        .Columns(_ =>
+        {
+            _.AddFor(_ => _.Name);
+            _.AddFor(_ => _.Description);
+            _.AddFor(_ => _.Quantity);
+            _.AddFor(_ => _.Price);
+        })
+        .DataSource(_ => _.Mvc()
+        .Controller("InventoryAPI")
+        .LoadAction("Get")
+        .InsertAction("Post")
+        .UpdateAction("Put")
+        .DeleteAction("Delete")
+        .Key("Id")
+        )
+    )
+</div>
