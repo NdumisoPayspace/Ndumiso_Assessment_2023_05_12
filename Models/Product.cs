@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Ndumiso_Assessment_2023_05_12.Models
+﻿namespace Ndumiso_Assessment_2023_05_12.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class Product
     {
         [Key]

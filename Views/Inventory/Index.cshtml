@@ -1,5 +1,6 @@
-﻿<h1>Inventory Management</h1>
-
+﻿<div>
+    <h1>Inventory Management</h1>
+</div>
 <div class="center">
     @(
         Html.DevExtreme().DataGrid<Ndumiso_Assessment_2023_05_12.Models.Product>()
@@ -7,21 +8,32 @@
         .ShowBorders(true)
         .Paging(_ => _.PageSize(10))
         .HoverStateEnabled(true)
-        .ColumnWidth(250)
+        .OnDataErrorOccurred("onDataErrorOccured")
         .Editing(_ =>
         {
             _.Mode(GridEditMode.Form);
             _.UseIcons(true);
+            _.Texts(_ => _.AddRow("Add Product"));
             _.AllowUpdating(true);
             _.AllowAdding(true);
             _.AllowDeleting(true);
         })
+        .Toolbar(toolbar =>
+        {
+            toolbar.Items(items =>
+            {
+                items.Add()
+            .Name("addRowButton")
+            .ShowText(ToolbarItemShowTextMode.Always);
+            }
+            );
+        })
         .Columns(_ =>
         {
-            _.AddFor(_ => _.Name);
+            _.AddFor(_ => _.Name).Width("250");
             _.AddFor(_ => _.Description);
-            _.AddFor(_ => _.Quantity);
-            _.AddFor(_ => _.Price);
+            _.AddFor(_ => _.Quantity).Width("250");
+            _.AddFor(_ => _.Price).Width("250");
         })
         .DataSource(_ => _.Mvc()
         .Controller("InventoryAPI")
@@ -33,3 +45,32 @@
         )
     )
 </div>
+
+<script>
+    function onDataErrorOccured(data) {
+        let errors = JSON.parse(data.error.message);
+        let errorMessages = [];
+        Object .keys(errors).forEach(key => {
+            errorMessages.push(...[errors[key]]);
+        });
+        setTimeout(() => {
+            document.querySelector(".dx-error-message").innerHTML = "";
+            errorMessages.forEach(message => {
+                document.querySelector(".dx-error-message").innerHTML += message.toString().replace(/'/g, "") + "<br />";
+            });
+        });
+    }
+</script>
+
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dx-datagrid-headers {
+        background-color: navy;
+        color: white;
+    }
+</style>

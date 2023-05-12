@@ -32,18 +32,19 @@
         private void GeneralRules()
         {
             this.RuleFor(_ => _.Name)
-                .NotEmpty()
+                .NotEmpty().WithMessage("Name is required")
                 .MaximumLength(50).WithMessage("Name must be less than 50 characters");
 
             this.RuleFor(_ => _.Description)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Description is required");
 
             this.RuleFor(_ => _.Price)
                 .NotEmpty().WithMessage("Price is required")
                 .GreaterThan(0).WithMessage("Price must be greater than 0")
-                .PrecisionScale(10,2,true).WithMessage("Price can not have more than 2 decimal places and 10 digits");
+                .PrecisionScale(10,2,true).WithMessage("Price can not have more than 10 digits and 2 decimal places");
 
             this.RuleFor(_ => _.Quantity)
+                .NotEmpty().WithMessage("Quantity is required")
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Quantity must be greater than 0");
         }

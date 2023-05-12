@@ -56,7 +56,7 @@
 
             if (product == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             JsonConvert.PopulateObject(values, product!);
@@ -83,7 +83,7 @@
 
             if (product == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             var result = productValidator.Validate(product, _ => _.IncludeRuleSets("Delete"));
